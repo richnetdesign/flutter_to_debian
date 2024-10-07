@@ -14,10 +14,10 @@ class Vars {
     'k'
   ];
 
-  static Future<FlutterToDebian?> parseDebianYaml() async {
-    File yaml = File("debian/debian.yaml");
+  static Future<FlutterToDebian?> parseDebianYaml({file = "debian/debian.yaml"}) async {
+    File yaml = File(file);
     if (!(await yaml.exists())) {
-      yaml = File("debian/debian.yml");
+      yaml = File(file);
     }
 
     if (await yaml.exists()) {
