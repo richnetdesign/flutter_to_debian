@@ -18,8 +18,8 @@ class FlutterToDebian {
 
   String execOutDirPath = 'build/linux/x64/release/debian';
 
-  static Future<String> runBuild({String? version, String? arch}) async {
-    final flutterToDebian = await FlutterToDebian.fromConfigs();
+  static Future<String> runBuild({String? version, String? arch, String? debianYaml}) async {
+    final flutterToDebian = await FlutterToDebian.fromConfigs(debianFile : debianYaml);
 
     if (version != null) {
       flutterToDebian.debianControl = flutterToDebian.debianControl.copyWith(
@@ -34,6 +34,8 @@ class FlutterToDebian {
     }
 
     stdout.writeln("start building debian package... ♻️  ♻️  ♻️\n");
+
+    // todo pass build args
     final String execPath = await flutterToDebian.build();
 
     stdout.writeln("🔥🔥🔥 (debian 📦) build done successfully  ✅\n");
@@ -41,12 +43,15 @@ class FlutterToDebian {
     return execPath;
   }
 
-  static Future<void> runCreate({String? version}) async {
-    final flutterToDebian = await FlutterToDebian.fromConfigs();
+  static Future<void> runCreate({String? version, String? archOverride, String? debianFile}) async {
+
+    // todo pass param
+    final flutterToDebian = await FlutterToDebian.fromConfigs(debianFile: debianFile);
 
     if (version != null) {
       flutterToDebian.debianControl = flutterToDebian.debianControl.copyWith(
         version: version,
+        debArch: archOverride
       );
     }
 
@@ -54,9 +59,11 @@ class FlutterToDebian {
     stdout.writeln("Successfully created Debian GUI config  ✅\n");
   }
 
-  static Future<FlutterToDebian> fromConfigs() async {
+  static Future<FlutterToDebian> fromConfigs({String? debianFile}) async {
     stdout.write("\nchecking for debian 📦 in root project...");
-    var flutterToDebian = await Vars.parseDebianYaml();
+
+    // pass parameter
+    var flutterToDebian = await Vars.parseDebianYaml(debianYaml : debianFile);
     if (flutterToDebian == null) {
       flutterToDebian = await Vars.parsePubspecYaml();
       if (flutterToDebian != null) {
@@ -119,6 +126,9 @@ class FlutterToDebian {
     if (yamlMap.containsKey('options')) {
       execOutDirPath = yamlMap['options']['exec_out_dir'];
     }
+
+   
+
   }
 
   Future<String> build() async {

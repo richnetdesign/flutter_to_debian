@@ -50,30 +50,39 @@ void main(List<String> arguments) async {
 class BuildArgParser {
   static const optBuildVersion = 'build-version';
   static const optArchitecture = 'arch';
+  static const optDebianFile = 'deb-config';
 
   static ArgParser createParser() {
     return ArgParser()
       ..addOption(optBuildVersion)
-      ..addOption(optArchitecture);
+      ..addOption(optArchitecture)
+      ..addOption(optDebianFile);
   }
 
   static Future<void> run(ArgResults? argResults) async {
     await FlutterToDebian.runBuild(
         version: argResults?[optBuildVersion],
-        arch: argResults?[optArchitecture]);
+        arch: argResults?[optArchitecture],
+        debianYaml: argResults?[optDebianFile]);
   }
 }
 
 class CreateDirsArgParser {
   static const optBuildVersion = 'build-version';
+  static const optArchitecture = 'arch';
+  static const optDebianFile = 'deb-config';
 
   static ArgParser createParser() {
-    return ArgParser()..addOption(optBuildVersion);
+    return ArgParser()..addOption(optBuildVersion)
+            ..addOption(optArchitecture)
+            ..addOption(optDebianFile);
   }
 
   static Future<void> run(ArgResults argResults) async {
     await FlutterToDebian.runCreate(
       version: argResults[optBuildVersion],
+      archOverride: argResults[optArchitecture],
+      debianFile: argResults[optDebianFile]
     );
   }
 }
