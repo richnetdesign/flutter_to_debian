@@ -81,7 +81,7 @@ class CreateDirsArgParser {
   static Future<void> run(ArgResults argResults) async {
     await FlutterToDebian.runCreate(
       version: argResults[optBuildVersion],
-      archOverride: argResults[optArchitecture],
+      //archOverride: argResults[optArchitecture],
       debianFile: argResults[optDebianFile]
     );
   }
