@@ -1,0 +1,14 @@
+flutter_app: 
+  command: flutterexample
+  arch: arm64
+  parent: /usr/local/lib
+  nonInteractive: true
+
+control:
+  Package: testexample
+  #Version: 0.0.0
+  Architecture: arm64
+  Priority: optional
+  Depends:
+  Maintainer: example@example.com
+  Description: example description
