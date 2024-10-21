@@ -27,7 +27,10 @@ class FlutterToDebian {
       );
     }
 
-    if (arch != null) {
+    if(arch == null) {
+      flutterToDebian.execOutDirPath =
+          flutterToDebian.execOutDirPath.replaceAll('x64', flutterToDebian.flutterArch);
+    } else {
       flutterToDebian.flutterArch = arch;
       flutterToDebian.execOutDirPath =
           flutterToDebian.execOutDirPath.replaceAll('x64', arch);
