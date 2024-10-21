@@ -106,19 +106,10 @@ class FlutterToDebian {
     if (yamlMap.containsKey('control')) {
       final control = yamlMap["control"];
 
-      var archOverride = "";
-
-      if (flutterArch != debianControl.debArch) {
-        archOverride = flutterArch;
-      }
-      else {
-        archOverride = control["Architecture"];
-      }
-
       debianControl = debianControl.copyWith(
         version: control["Version"],
         package: control["Package"],
-        debArch: archOverride,
+        debArch: control["Architecture"],
         maintainer: control["Maintainer"],
         description: control["Description"],
       );
